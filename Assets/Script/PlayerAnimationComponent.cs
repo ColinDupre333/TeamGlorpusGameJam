@@ -36,6 +36,9 @@ public class PlayerAnimationComponent : MonoBehaviour
                 ActivateRunning();
                 DeactivateWalking();
                 break;
+            case MovementState.Jumping:
+                ActivateJumping();
+                break;
             default:
                 DeactivateWalking();
                 DeactivateRunning();
@@ -62,6 +65,12 @@ public class PlayerAnimationComponent : MonoBehaviour
     {
         animator.SetBool("isWalking", false);
     }
+
+    void ActivateJumping()
+    {
+        animator.SetTrigger("isJumping");
+    }
+
 
     void ActivateDeath()
     {
