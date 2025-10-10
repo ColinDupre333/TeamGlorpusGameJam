@@ -16,6 +16,8 @@ TagManager:
   - Rocket
   - Astroid
   - Bullet
+  - Ennemi
+  - UVO
   layers:
   - Default
   - TransparentFX
@@ -23,9 +25,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Ennemi
+  - UVO
+  - Laser
   - 
   - 
   - 
