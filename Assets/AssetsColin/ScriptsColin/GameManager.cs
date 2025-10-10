@@ -6,22 +6,32 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] TMP_Text timerText;
+    [SerializeField] Slider DangerMeter;
 
+    //UI
+    Image sliderFiller;
+
+    //DangerManager
+    int tasksCompleted = 0;
+    int tasksToDo = 0;
 
 
     bool gameStarted = false;
-    bool gameEnded = false;
+    public bool gameEnded = false;
 
-    int seconds = 0;
-    int minutes = 0;
+    public int seconds = 0;
+    public int minutes = 0;
 
 
     void Start()
     {
+
+        sliderFiller = DangerMeter.fillRect.GetComponent<Image>();
+
         gameStarted = true;
+        DangerMeter.value = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (gameStarted)
@@ -53,14 +63,29 @@ public class GameManager : MonoBehaviour
 
             timerText.text = timeString;
 
+            //if(DangerMeter.value < DangerMeter.maxValue)
+            //    DangerMeter.value += 0.10f;
+
             yield return new WaitForSeconds(1f);
         }
     }
 
+    IEnumerator DangerManager()
+    {
+        while (gameEnded == false)
+        {
+            
+            yield return new WaitForSeconds(1f);
 
 
 
+            if (DangerMeter.value >= DangerMeter.maxValue)
+            {
+                gameEnded = true;
 
+            }           
+        }
+    }
 }
 
 
