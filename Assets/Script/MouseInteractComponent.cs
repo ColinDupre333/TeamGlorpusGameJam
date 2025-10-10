@@ -29,7 +29,7 @@ public class MouseInteractComponent : MonoBehaviour
         }
 
         if (hit.collider.CompareTag("Interactable")) 
-            Destroy(hit.collider.gameObject);
+            hit.transform.GetComponent<CapsuleComponent>().Interact();
 
         isInteracting = false;
     }
