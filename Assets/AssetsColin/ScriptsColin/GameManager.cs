@@ -9,11 +9,23 @@ public class GameManager : MonoBehaviour
     [SerializeField] Slider DangerMeter;
 
     //UI
-    Image sliderFiller;
+    [SerializeField] Image redScreen;
 
     //DangerManager
-    int tasksCompleted = 0;
-    int tasksToDo = 0;
+    
+    float _tasksCompleted;
+    float tasksToDo = 1;
+    float baseDangerMeterIncrease = 0.001f;
+    public float tasksCompleted
+    {
+        get => _tasksCompleted;
+        set
+        {
+            _tasksCompleted = value;
+            DangerMeterIncrease();
+        }
+    }
+    bool inDangerZone = false;
 
 
     bool gameStarted = false;
@@ -23,13 +35,15 @@ public class GameManager : MonoBehaviour
     public int minutes = 0;
 
 
+
+    //bool test = false;
+
+
     void Start()
     {
-
-        sliderFiller = DangerMeter.fillRect.GetComponent<Image>();
-
         gameStarted = true;
-        DangerMeter.value = 0;
+        DangerMeter.value = 0.7f;
+        redScreen.enabled = false;
     }
 
     void Update()
@@ -37,10 +51,35 @@ public class GameManager : MonoBehaviour
         if (gameStarted)
         {
             StartCoroutine(TimerUI());
+            StartCoroutine(DangerManager());
             gameStarted = false;
         }
-        
+
+        if (DangerMeter.value >= 0.8 && !inDangerZone)
+        {
+            inDangerZone = true;
+            StartCoroutine(BlinkingRed());
+        }
+        //if (Input.GetKeyDown(KeyCode.Space) && !test)
+        //{
+        //    StartCoroutine(Testing());
+        //}
     }
+
+    void DangerMeterIncrease()
+    {
+        baseDangerMeterIncrease = 0.001f * _tasksCompleted;
+        print(baseDangerMeterIncrease);
+    }
+
+    //IEnumerator Testing()
+    //{      
+    //        test = true;
+    //        tasksCompleted++;
+    //        yield return new WaitForSeconds(3f);
+    //        test = false;       
+    //}
+
 
     IEnumerator TimerUI()
     {
@@ -63,9 +102,6 @@ public class GameManager : MonoBehaviour
 
             timerText.text = timeString;
 
-            //if(DangerMeter.value < DangerMeter.maxValue)
-            //    DangerMeter.value += 0.10f;
-
             yield return new WaitForSeconds(1f);
         }
     }
@@ -74,17 +110,42 @@ public class GameManager : MonoBehaviour
     {
         while (gameEnded == false)
         {
-            
-            yield return new WaitForSeconds(1f);
+
+            if(tasksToDo != 0)
+            {
+                DangerMeter.value += baseDangerMeterIncrease;
+            }
+            else
+            {
+                DangerMeter.value -= 0.05f;
+                if (DangerMeter.value < 0)
+                    DangerMeter.value = 0;
+            }
+
+
+            yield return new WaitForSeconds(0.1f);
 
 
 
             if (DangerMeter.value >= DangerMeter.maxValue)
             {
+                DangerMeter.value = DangerMeter.maxValue;
                 gameEnded = true;
 
             }           
         }
+    }
+
+    IEnumerator BlinkingRed()
+    {
+        while(gameEnded == false && inDangerZone)
+        {
+            redScreen.enabled = true;
+            yield return new WaitForSeconds(0.7f);
+            redScreen.enabled = false;
+            yield return new WaitForSeconds(0.7f);
+        }
+        inDangerZone = false;
     }
 }
 
