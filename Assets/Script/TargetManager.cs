@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Collections;
 using NUnit.Framework;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TargetManager : MonoBehaviour
 {
@@ -53,6 +55,14 @@ public class TargetManager : MonoBehaviour
         if (leftTargets <= 0)
         {
             winText.enabled = true;
+            float tasksToDo = PlayerPrefs.GetFloat("CurrentTasksToDo", 0);
+            float tasksCompleted = PlayerPrefs.GetFloat("CurrentTasksCompleted", 0);
+
+            PlayerPrefs.SetFloat("CurrentTasksToDo", tasksToDo--);
+            PlayerPrefs.SetFloat("CurrentTasksCompleted", tasksCompleted + 1f);
+            PlayerPrefs.Save();
+
+            StartCoroutine(WaitAndGoBack());
         }
     }
 
@@ -77,4 +87,11 @@ public class TargetManager : MonoBehaviour
         int randomIndex = Random.Range(1, spawnPointTransforms.Length);
         Instantiate(targetPrefab, spawnPointTransforms[randomIndex].position, Quaternion.identity);
     }
+
+    IEnumerator WaitAndGoBack()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("MainGameScene");
+    }
+
 }
