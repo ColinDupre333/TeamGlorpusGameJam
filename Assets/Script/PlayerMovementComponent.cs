@@ -15,12 +15,13 @@ public class PlayerMovementComponent : MonoBehaviour
     [SerializeField] float runningSpeed = 10f;
     [SerializeField] float gravity = -9.81f;
     [SerializeField] float jumpForce = 5f;
+    [SerializeField] AudioClip walkSFX;
     public MovementState currentMovementState = MovementState.Idle;
 
     CharacterController characterController;
 
     Vector3 moveDirection;
-   public  Vector3 gravityVector;
+    Vector3 gravityVector;
     float currentSpeed;
     bool wantsToJump = false;
 
