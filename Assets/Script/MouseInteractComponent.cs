@@ -29,7 +29,7 @@ public class MouseInteractComponent : MonoBehaviour
         }
 
         if (hit.collider.CompareTag("Interactable")) 
-            Debug.Log("Interacted with " + hit.collider.name);
+            Destroy(hit.collider.gameObject);
 
         isInteracting = false;
     }
