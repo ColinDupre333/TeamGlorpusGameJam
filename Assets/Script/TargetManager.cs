@@ -6,10 +6,13 @@ using UnityEngine;
 public class TargetManager : MonoBehaviour
 {
     public static TargetManager instance;
+    SoundPlayerScript soundPlayer;
 
     [SerializeField] GameObject spawnPointsGameObject;
     [SerializeField] int maxTargets = 10;
     [SerializeField] int minTargets = 1;
+    [SerializeField] AudioClip Music;
+    [SerializeField] TMPro.TextMeshProUGUI winText;
 
     int leftTargets = 0;
 
@@ -20,6 +23,7 @@ public class TargetManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        winText.enabled = false;
         if (instance == null)
         {
             instance = this;
@@ -29,15 +33,16 @@ public class TargetManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        soundPlayer = GetComponent<SoundPlayerScript>();
+        soundPlayer.PlaySound(Music, transform, 1f);
         spawnPointTransforms = spawnPointsGameObject.GetComponentsInChildren<Transform>();
         SpawnAllTarget();
-        scoreText.text = "Capsule restante: " + leftTargets.ToString();
+        scoreText.text = "Remaining Obects: " + leftTargets.ToString();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        soundPlayer.PlaySound(Music, transform, 1f);
     }
 
 
@@ -47,18 +52,15 @@ public class TargetManager : MonoBehaviour
         UpdateScore(leftTargets);
         if (leftTargets <= 0)
         {
-            GameOver();
+            winText.enabled = true;
         }
     }
 
-    private void GameOver()
-    {
-        Debug.Log("Game Over");
-    }
+   
 
     public void UpdateScore(int score)
     {
-        scoreText.text = "Capsule restante: " + score.ToString();
+        scoreText.text = "Remaining Obects: " + score.ToString();
     }
 
     void SpawnAllTarget()
