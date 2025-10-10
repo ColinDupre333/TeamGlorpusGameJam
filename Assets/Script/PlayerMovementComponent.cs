@@ -5,7 +5,8 @@ public enum MovementState
 {
     Idle,
     Walking,
-    Running
+    Running,
+    Jumping
 }
 
 public class PlayerMovementComponent : MonoBehaviour
@@ -13,13 +14,15 @@ public class PlayerMovementComponent : MonoBehaviour
     [SerializeField] float walkingSpeed = 5f;
     [SerializeField] float runningSpeed = 10f;
     [SerializeField] float gravity = -9.81f;
+    [SerializeField] float jumpForce = 5f;
     public MovementState currentMovementState = MovementState.Idle;
 
     CharacterController characterController;
 
     Vector3 moveDirection;
-    Vector3 gravityVector;
+   public  Vector3 gravityVector;
     float currentSpeed;
+    bool wantsToJump = false;
 
     Vector2 moveInput;
 
@@ -36,6 +39,15 @@ public class PlayerMovementComponent : MonoBehaviour
         Movement();
     }
 
+    void Jump()
+    {
+        if (wantsToJump)
+        {
+            gravityVector = transform.up * jumpForce;
+            wantsToJump = false;
+            currentMovementState = MovementState.Jumping; // set state to jumping once
+        }
+    }
     void Movement()
     {
         moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
@@ -49,28 +61,28 @@ public class PlayerMovementComponent : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 180, 0);
         }
 
+        ChangeMoveState();
+
         if (!characterController.isGrounded) // apply gravity
         {
             gravityVector.y += gravity * Time.deltaTime;
         }
-        else
+        else if (characterController.isGrounded)
         {
-            gravityVector.y = 0;
-        }
 
-        ChangeMoveState();
+            Jump();
+        }
 
         characterController.Move((moveDirection * currentSpeed + gravityVector) * Time.deltaTime);
     }
 
-    void ChangeMoveState()
-   {
+    void ChangeMoveState() // can also be change in Jump()
+    {
         if (moveDirection.magnitude == 0)
         {
             currentMovementState = MovementState.Idle;
         }
-        else
-        if (moveDirection.magnitude > 0 && currentSpeed == walkingSpeed)
+        else if (moveDirection.magnitude > 0 && currentSpeed == walkingSpeed)
         {
             currentMovementState = MovementState.Walking;
         }
@@ -81,6 +93,17 @@ public class PlayerMovementComponent : MonoBehaviour
     }
 
 
+    public void InputJump(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            wantsToJump = true;
+        }
+        else
+        {
+            wantsToJump = false;
+        }
+    }
     public void InputRun(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)
