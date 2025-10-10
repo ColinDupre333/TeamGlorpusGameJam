@@ -4,11 +4,12 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     [SerializeField] Transform Gun;
+    [SerializeField] TMPro.TextMeshProUGUI Finito;
     public LayerMask layersToHit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        Finito.enabled = false;
     }
 
     // Update is called once per frame
@@ -31,6 +32,8 @@ public class Laser : MonoBehaviour
         if (hit.collider.tag == "Ennemi")
         {
             transform.localScale = new Vector3((hit.collider.transform.position.x - Gun.transform.position.x ) /2.3f , transform.localScale.y, 1);
+            Destroy(hit.collider.gameObject);
+            Finito.enabled = true;
 
 
         }

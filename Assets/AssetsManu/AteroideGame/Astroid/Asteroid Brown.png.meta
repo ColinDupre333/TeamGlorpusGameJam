@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Asteroid Brown_0: 6598842272864494176
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
