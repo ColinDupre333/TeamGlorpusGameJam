@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TaskAsteroidS : MonoBehaviour
 {
@@ -9,8 +10,10 @@ public class TaskAsteroidS : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             //start the asteroid task
-            gameManager.tasksToDo--;
-            gameObject.SetActive(false);
+            //SceneManager.LoadScene("Asteroid");
+
+            //gameManager.tasksToDo--;
+            //gameObject.SetActive(false);
         }
     }
 }

@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        DontDestroyOnLoad(gameObject);
         gameStarted = true;
         DangerMeter.value = 0;
         redScreen.enabled = false;
