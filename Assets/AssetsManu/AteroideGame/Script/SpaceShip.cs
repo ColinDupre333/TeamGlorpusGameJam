@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class SpaceShip : MonoBehaviour
 {
     [Header("Space ship params")]
-   
+
     [SerializeField] float shipMaxVelocity = 10f;
     [SerializeField] float shipAcceleration = 10f; 
     [SerializeField] float shipRotationSpeed = 180f;
@@ -20,10 +20,12 @@ public class SpaceShip : MonoBehaviour
     [Header("Object references")]
     [SerializeField] Transform bulletsSpawn;
     [SerializeField] Rigidbody2D bulletPrefab;
-    void Awake()
+    [SerializeField] AudioClip shootSound;
+    [SerializeField] AudioClip Music;
+    void Start()
     {
+        SFXManager.instance.PlaySFX(Music, transform, 1f);
         shipRigidBody = GetComponent<Rigidbody2D>();
-    
     }
 
     // Update is called once per frame
@@ -81,6 +83,7 @@ public class SpaceShip : MonoBehaviour
             }
             bulletInstance.linearVelocity = shipDirection * shipFowardSpeed;
             bulletInstance.AddForce(bulletSpeed * transform.up, ForceMode2D.Impulse);
+            SFXManager.instance.PlaySFX(shootSound, transform, 0.5f);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

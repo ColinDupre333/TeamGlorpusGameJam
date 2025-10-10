@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class SpaceManager : MonoBehaviour
 {
-    
+
     public int score = 0;
     public int scoreToWin = 10;
     [SerializeField] AsteroidComponent asteroidPrefab;
@@ -11,7 +11,7 @@ public class SpaceManager : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI ScoreText;
     public int asteroidCount = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    void Start()
     {
         ScoreText.text = score.ToString() + "/" + scoreToWin.ToString();
         WinText.enabled = false;
