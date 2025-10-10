@@ -18,9 +18,12 @@ public class TaskLaserS : MonoBehaviour
             PlayerPrefs.SetFloat("CurrentDangerMeter", gameManager.DangerMeter.value);
             PlayerPrefs.Save();
 
+            
+
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<Collider>().enabled = false;
             SceneManager.LoadScene("Laser");
 
-            gameObject.SetActive(false);
 
 
         }

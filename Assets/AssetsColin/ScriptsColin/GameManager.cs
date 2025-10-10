@@ -169,15 +169,18 @@ public class GameManager : MonoBehaviour
 
             if (randomTask == 1)
             {
-                taskAsteroid.SetActive(true);
+                taskAsteroid.GetComponent<SpriteRenderer>().enabled = true;
+                taskAsteroid.GetComponent<Collider>().enabled = true;
             }
             else if (randomTask == 2)
             {
-                taskLaser.SetActive(true);
+                taskLaser.GetComponent<SpriteRenderer>().enabled = true;
+                taskLaser.GetComponent<Collider>().enabled = true;
             }
             else if (randomTask == 3)
             {
-                taskFlashlight.SetActive(true);
+                taskFlashlight.GetComponent<SpriteRenderer>().enabled = true;
+                taskFlashlight.GetComponent<Collider>().enabled = true;
             }
             tasksToDo++;
             yield return new WaitForSeconds(timeBetweenTasks);

@@ -17,10 +17,12 @@ public class TaskFlashlightS : MonoBehaviour
             PlayerPrefs.SetFloat("CurrentDangerMeter", gameManager.DangerMeter.value);
             PlayerPrefs.Save();
 
-            SceneManager.LoadScene("LightMiniGame");
-
-            gameObject.SetActive(false);
             
+
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<Collider>().enabled = false;
+
+            SceneManager.LoadScene("LightMiniGame");
         }
     }
 }
