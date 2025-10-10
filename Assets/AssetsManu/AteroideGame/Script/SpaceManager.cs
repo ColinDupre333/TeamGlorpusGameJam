@@ -2,11 +2,17 @@ using UnityEngine;
 
 public class SpaceManager : MonoBehaviour
 {
+    public int score = 0;
+    public int scoreToWin = 10;
     [SerializeField] AsteroidComponent asteroidPrefab;
+    [SerializeField] TMPro.TextMeshProUGUI WinText;
+    [SerializeField] TMPro.TextMeshProUGUI ScoreText;
     public int asteroidCount = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        ScoreText.text = score.ToString() + "/" + scoreToWin.ToString();
+        WinText.enabled = false;
         if (asteroidCount == 0)
         {
             for (int i = 0; i < 5; i++)
@@ -19,12 +25,17 @@ public class SpaceManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ScoreText.text = score.ToString() + "/" + scoreToWin.ToString();
         if (asteroidCount == 0)
         {
             for (int i = 0; i < 5; i++)
             {
                 SpawnAsteroid();
             }
+        }
+        if(score >= scoreToWin)
+        {
+            WinText.enabled = true;
         }
     }
     private void SpawnAsteroid()

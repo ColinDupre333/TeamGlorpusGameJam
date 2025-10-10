@@ -5,7 +5,6 @@ public class AsteroidComponent : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     //[SerializeField] GameObject manager;
     //[SerializeField] GameObject SpaceShip;
-     public SpaceShip spaceShip;
     public SpaceManager spaceManager;
     void Start()
     {
@@ -29,8 +28,8 @@ public class AsteroidComponent : MonoBehaviour
     {
         if (collision.CompareTag("Bullet"))
         {
-            spaceShip.score += 1;
-            Debug.Log("Score: " + spaceShip.score);
+            spaceManager.score = spaceManager.score + 1;
+            Debug.Log("Score: " + spaceManager.score);
             Destroy(collision.gameObject);
             spaceManager.asteroidCount--;
             Destroy(gameObject);

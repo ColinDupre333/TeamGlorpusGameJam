@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpaceShip : MonoBehaviour
 {
     [Header("Space ship params")]
-    public int score = 0;
+   
     [SerializeField] float shipMaxVelocity = 10f;
     [SerializeField] float shipAcceleration = 10f; 
     [SerializeField] float shipRotationSpeed = 180f;
@@ -21,8 +21,9 @@ public class SpaceShip : MonoBehaviour
     [SerializeField] Rigidbody2D bulletPrefab;
     void Awake()
     {
+       
         shipRigidBody = GetComponent<Rigidbody2D>();
-        score = 0;
+    
     }
 
     // Update is called once per frame
@@ -34,6 +35,7 @@ public class SpaceShip : MonoBehaviour
             HandleShipRotation();
             HandleShooting();
         }
+       
         
     }
 
@@ -88,7 +90,6 @@ public class SpaceShip : MonoBehaviour
             isAlive = false;
             shipRigidBody.linearVelocity = Vector2.zero;
             gameObject.SetActive(false);
-            score = 0;
         }
     }
 }
