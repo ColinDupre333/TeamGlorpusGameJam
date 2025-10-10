@@ -47,12 +47,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        tasksCompleted = PlayerPrefs.GetInt("TasksCompleted", 0);
-        tasksToDo = PlayerPrefs.GetInt("TasksToDo", 0);
-
-
-
-
         gameStarted = true;
         DangerMeter.value = 0;
         redScreen.enabled = false;
