@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpaceManager : MonoBehaviour
 {
+    
     public int score = 0;
     public int scoreToWin = 10;
     [SerializeField] AsteroidComponent asteroidPrefab;
@@ -36,6 +38,15 @@ public class SpaceManager : MonoBehaviour
         if(score >= scoreToWin)
         {
             WinText.enabled = true;
+
+            float tasksToDo = PlayerPrefs.GetFloat("CurrentTasksToDo", 0);
+            float tasksCompleted = PlayerPrefs.GetFloat("CurrentTasksCompleted", 0);
+
+            PlayerPrefs.SetFloat("CurrentTasksToDo", tasksToDo--);
+            PlayerPrefs.SetFloat("CurrentTasksCompleted", tasksCompleted + 1f);
+            PlayerPrefs.Save();
+
+            SceneManager.LoadScene("MainGameScene");
         }
     }
     private void SpawnAsteroid()

@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - Interactable
+  - Bullet
+  - Astroid
+  - Ennemi
+  - UVO
+  - GameManager
   layers:
   - Default
   - TransparentFX

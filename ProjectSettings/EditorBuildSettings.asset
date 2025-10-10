@@ -11,6 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainGameScene.unity
     guid: dd75bf1b033fdfb40b700445cb6199bb
+  - enabled: 1
+    path: Assets/AssetsManu/AteroideGame/asteroide.unity
+    guid: 5a7f0512763d9324d86f1932c962c372
+  - enabled: 1
+    path: Assets/AssetsManu/LaserGame/Laser.unity
+    guid: 1d815f1998ebce748b07ed03cfa731a9
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

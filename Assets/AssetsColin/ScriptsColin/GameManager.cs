@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [Header("UI Elements")]
     [SerializeField] TMP_Text timerText;
-    [SerializeField] Slider DangerMeter;
+    [SerializeField] public Slider DangerMeter;
 
     //UI
     [SerializeField] Image redScreen;
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GameObject taskAsteroid;
     [SerializeField] public GameObject taskLaser;
     [SerializeField] public GameObject taskFlashlight;
-    float timeBetweenTasks = 10f;
+    public float timeBetweenTasks = 10f;
 
     bool gameStarted = false;
     public bool gameEnded = false;
@@ -49,9 +49,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        seconds = PlayerPrefs.GetInt("CurrentSeconds", 0);
+        minutes = PlayerPrefs.GetInt("CurrentMinutes", 0);
+        tasksToDo = PlayerPrefs.GetInt("CurrentTasksToDo", 0);
+        tasksCompleted = PlayerPrefs.GetInt("CurrentTasksCompleted", 0);
+        timeBetweenTasks = PlayerPrefs.GetFloat("CurrentTimeBetweenTasks", 10f);
+        DangerMeter.value = PlayerPrefs.GetFloat("CurrentDangerMeter", 0);
+
         gameStarted = true;
-        DangerMeter.value = 0.75f;
         redScreen.enabled = false;
     }
 
@@ -71,25 +76,23 @@ public class GameManager : MonoBehaviour
             StartCoroutine(BlinkingRed());
             
         } 
-        //if (Input.GetKeyDown(KeyCode.Space) && !test)
-        //{
-        //    StartCoroutine(Testing());
-        //}
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PlayerPrefs.SetInt("CurrentSeconds", 0);
+            PlayerPrefs.SetInt("CurrentMinutes", 0);
+            PlayerPrefs.SetFloat("CurrentTasksToDo", 0);
+            PlayerPrefs.SetFloat("CurrentTasksCompleted", 0);
+            PlayerPrefs.SetFloat("CurrentTimeBetweenTasks", 10f);
+            PlayerPrefs.SetFloat("CurrentDangerMeter", 0);
+            PlayerPrefs.Save();
+        }
     }
 
     void DangerMeterIncrease()
     {
-        baseDangerMeterIncrease = 0.001f * _tasksCompleted;
+        baseDangerMeterIncrease += 0.001f * _tasksCompleted;
         
     }
-
-    //IEnumerator Testing()
-    //{      
-    //        test = true;
-    //        tasksCompleted++;
-    //        yield return new WaitForSeconds(3f);
-    //        test = false;       
-    //}
 
 
     IEnumerator TimerUI()
@@ -125,6 +128,7 @@ public class GameManager : MonoBehaviour
             if(tasksToDo != 0)
             {
                 DangerMeter.value += baseDangerMeterIncrease;
+                print("increasing danger meter" + baseDangerMeterIncrease);
             }
             else
             {

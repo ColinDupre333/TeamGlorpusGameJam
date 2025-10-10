@@ -1,6 +1,7 @@
 using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpaceShip : MonoBehaviour
 {
@@ -21,7 +22,6 @@ public class SpaceShip : MonoBehaviour
     [SerializeField] Rigidbody2D bulletPrefab;
     void Awake()
     {
-       
         shipRigidBody = GetComponent<Rigidbody2D>();
     
     }
@@ -89,6 +89,18 @@ public class SpaceShip : MonoBehaviour
         {
             isAlive = false;
             shipRigidBody.linearVelocity = Vector2.zero;
+
+            float tasksToDo = PlayerPrefs.GetFloat("CurrentTasksToDo", 0);
+            float tasksCompleted = PlayerPrefs.GetFloat("CurrentTasksCompleted", 0);
+            float dangerMeterVal = PlayerPrefs.GetFloat("CurrentDangerMeter", 0);
+
+            PlayerPrefs.SetFloat("CurrentTasksToDo", tasksToDo--);
+            PlayerPrefs.SetFloat("CurrentTasksCompleted", tasksCompleted + 1f);
+            PlayerPrefs.SetFloat("CurrentDangerMeter", dangerMeterVal + 0.2f);
+            PlayerPrefs.Save();
+
+
+            SceneManager.LoadScene("MainGameScene");
             gameObject.SetActive(false);
         }
     }

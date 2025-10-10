@@ -10,7 +10,16 @@ public class TaskAsteroidS : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             //start the asteroid task
-            //SceneManager.LoadScene("Asteroid");
+            PlayerPrefs.SetInt("CurrentSeconds", gameManager.seconds);
+            PlayerPrefs.SetInt("CurrentMinutes", gameManager.minutes);
+            PlayerPrefs.SetFloat("CurrentTasksToDo", gameManager.tasksToDo);
+            PlayerPrefs.SetFloat("CurrentTasksCompleted", gameManager.tasksCompleted);
+            PlayerPrefs.SetFloat("CurrentTimeBetweenTasks", gameManager.timeBetweenTasks);
+            PlayerPrefs.SetFloat("CurrentDangerMeter", gameManager.DangerMeter.value);
+            PlayerPrefs.Save();
+
+
+            SceneManager.LoadScene("asteroide");
 
             //gameManager.tasksToDo--;
             //gameObject.SetActive(false);
