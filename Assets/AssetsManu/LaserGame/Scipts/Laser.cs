@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Laser : MonoBehaviour
 {
@@ -35,7 +36,6 @@ public class Laser : MonoBehaviour
         if(hit.collider.tag == "UVO")
         {
             transform.localScale = new Vector3((hit.collider.transform.position.x - Gun.transform.position.x) / 2.3f, transform.localScale.y, 1);
-
         }
         if (hit.collider.tag == "Ennemi")
         {
@@ -43,7 +43,21 @@ public class Laser : MonoBehaviour
             Destroy(hit.collider.gameObject);
             Finito.enabled = true;
 
+            float tasksToDo = PlayerPrefs.GetFloat("CurrentTasksToDo", 0);
+            float tasksCompleted = PlayerPrefs.GetFloat("CurrentTasksCompleted", 0);
+
+            PlayerPrefs.SetFloat("CurrentTasksToDo", tasksToDo--);
+            PlayerPrefs.SetFloat("CurrentTasksCompleted", tasksCompleted + 1f);
+            PlayerPrefs.Save();
+
+            StartCoroutine(WaitAndGoBack());
 
         }
+    }
+
+    IEnumerator WaitAndGoBack()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("MainGameScene");
     }
 }

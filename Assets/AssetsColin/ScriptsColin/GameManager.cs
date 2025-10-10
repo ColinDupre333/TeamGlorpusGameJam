@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -128,7 +129,6 @@ public class GameManager : MonoBehaviour
             if(tasksToDo != 0)
             {
                 DangerMeter.value += baseDangerMeterIncrease;
-                print("increasing danger meter" + baseDangerMeterIncrease);
             }
             else
             {
@@ -146,6 +146,7 @@ public class GameManager : MonoBehaviour
             {
                 DangerMeter.value = DangerMeter.maxValue;
                 gameEnded = true;
+                SceneManager.LoadScene("GameOver");
 
             }           
         }

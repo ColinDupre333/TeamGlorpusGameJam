@@ -18,11 +18,9 @@ public class TaskAsteroidS : MonoBehaviour
             PlayerPrefs.SetFloat("CurrentDangerMeter", gameManager.DangerMeter.value);
             PlayerPrefs.Save();
 
-
             SceneManager.LoadScene("asteroide");
 
-            //gameManager.tasksToDo--;
-            //gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 }
