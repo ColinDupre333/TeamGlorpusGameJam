@@ -70,6 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cfff92e9c88404185e96942e834085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectSound: {fileID: 8300000, guid: 22ac459d933385e40ba0d955ff6030e2, type: 3}
 --- !u!1 &6200226140080713526
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,6 +18,8 @@ public class SFXManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        DontDestroyOnLoad(gameObject);
     }
 
     public void PlaySFX(AudioClip clip, Transform sourceTransform, float volume)
