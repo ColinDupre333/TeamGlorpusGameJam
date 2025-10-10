@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
         }
     }
     bool inDangerZone = false;
+    [SerializeField] GameObject[] fireFx;
+
 
     //task manager
     [Header("Tasks")]
@@ -49,7 +51,7 @@ public class GameManager : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
         gameStarted = true;
-        DangerMeter.value = 0;
+        DangerMeter.value = 0.75f;
         redScreen.enabled = false;
     }
 
@@ -67,7 +69,8 @@ public class GameManager : MonoBehaviour
         {
             inDangerZone = true;
             StartCoroutine(BlinkingRed());
-        }
+            
+        } 
         //if (Input.GetKeyDown(KeyCode.Space) && !test)
         //{
         //    StartCoroutine(Testing());
@@ -179,14 +182,25 @@ public class GameManager : MonoBehaviour
 
     IEnumerator BlinkingRed()
     {
-        while(gameEnded == false && inDangerZone)
+        foreach (GameObject fx in fireFx)
+        {
+            fx.SetActive(true);
+        }
+        while (gameEnded == false && inDangerZone)
         {
             redScreen.enabled = true;
             yield return new WaitForSeconds(0.7f);
+            print("blink");
             redScreen.enabled = false;
             yield return new WaitForSeconds(0.7f);
         }
         inDangerZone = false;
+
+        foreach (GameObject fx in fireFx)
+        {
+            fx.SetActive(false);
+        }
+
     }
 }
 
