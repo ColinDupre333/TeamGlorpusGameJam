@@ -5,6 +5,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("UI Elements")]
     [SerializeField] TMP_Text timerText;
     [SerializeField] Slider DangerMeter;
 
@@ -12,9 +13,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] Image redScreen;
 
     //DangerManager
-    
     float _tasksCompleted;
-    float tasksToDo = 1;
+    public float tasksToDo = 0;
     float baseDangerMeterIncrease = 0.001f;
     public float tasksCompleted
     {
@@ -27,6 +27,12 @@ public class GameManager : MonoBehaviour
     }
     bool inDangerZone = false;
 
+    //task manager
+    [Header("Tasks")]
+    [SerializeField] public GameObject taskAsteroid;
+    [SerializeField] public GameObject taskLaser;
+    [SerializeField] public GameObject taskFlashlight;
+    float timeBetweenTasks = 10f;
 
     bool gameStarted = false;
     public bool gameEnded = false;
@@ -42,7 +48,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         gameStarted = true;
-        DangerMeter.value = 0.7f;
+        DangerMeter.value = 0;
         redScreen.enabled = false;
     }
 
@@ -52,6 +58,7 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(TimerUI());
             StartCoroutine(DangerManager());
+            StartCoroutine(TaskManager());
             gameStarted = false;
         }
 
@@ -69,7 +76,7 @@ public class GameManager : MonoBehaviour
     void DangerMeterIncrease()
     {
         baseDangerMeterIncrease = 0.001f * _tasksCompleted;
-        print(baseDangerMeterIncrease);
+        
     }
 
     //IEnumerator Testing()
@@ -117,7 +124,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                DangerMeter.value -= 0.05f;
+                DangerMeter.value -= 0.005f;
                 if (DangerMeter.value < 0)
                     DangerMeter.value = 0;
             }
@@ -133,6 +140,39 @@ public class GameManager : MonoBehaviour
                 gameEnded = true;
 
             }           
+        }
+    }
+
+    IEnumerator TaskManager()
+    {
+        int randomTaskMemory = 0;
+
+        while (gameEnded == false)
+        {
+            int randomTask = Random.Range(1, 4);
+
+            while (randomTask == randomTaskMemory)
+            {
+                randomTask = Random.Range(1, 4);
+            }
+            print(randomTask);
+            randomTaskMemory = randomTask;
+
+            if (randomTask == 1)
+            {
+                taskAsteroid.SetActive(true);
+            }
+            else if (randomTask == 2)
+            {
+                taskLaser.SetActive(true);
+            }
+            else if (randomTask == 3)
+            {
+                taskFlashlight.SetActive(true);
+            }
+            tasksToDo++;
+            yield return new WaitForSeconds(timeBetweenTasks);
+            timeBetweenTasks -= 0.5f;
         }
     }
 
