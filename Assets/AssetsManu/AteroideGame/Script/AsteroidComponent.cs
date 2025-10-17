@@ -15,7 +15,6 @@ public class AsteroidComponent : MonoBehaviour
         float speed = Random.Range(2f, 5f);
         asteroidRigidBody.AddForce(direction * speed, ForceMode2D.Impulse);
         spaceManager.asteroidCount++;
-        Debug.Log(spaceManager.asteroidCount);
     }
 
     // Update is called once per frame

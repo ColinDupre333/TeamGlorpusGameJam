@@ -43,13 +43,16 @@ public class GameManager : MonoBehaviour
     public int seconds = 0;
     public int minutes = 0;
 
-
-
-    //bool test = false;
+    //music
+    [Header("Music")]
+    [SerializeField] AudioClip gameMusic;
+    [SerializeField] float musicVolume = 0.2f;
 
 
     void Start()
     {
+        ObjectPool.objectPoolInstance.RecreateObjects();
+        SFXManager.instance.PlaySFX(gameMusic, transform.transform, musicVolume);
         seconds = PlayerPrefs.GetInt("CurrentSeconds", 0);
         minutes = PlayerPrefs.GetInt("CurrentMinutes", 0);
         tasksToDo = PlayerPrefs.GetInt("CurrentTasksToDo", 0);
@@ -77,16 +80,16 @@ public class GameManager : MonoBehaviour
             StartCoroutine(BlinkingRed());
             
         } 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            PlayerPrefs.SetInt("CurrentSeconds", 0);
-            PlayerPrefs.SetInt("CurrentMinutes", 0);
-            PlayerPrefs.SetFloat("CurrentTasksToDo", 0);
-            PlayerPrefs.SetFloat("CurrentTasksCompleted", 0);
-            PlayerPrefs.SetFloat("CurrentTimeBetweenTasks", 10f);
-            PlayerPrefs.SetFloat("CurrentDangerMeter", 0);
-            PlayerPrefs.Save();
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    PlayerPrefs.SetInt("CurrentSeconds", 0);
+        //    PlayerPrefs.SetInt("CurrentMinutes", 0);
+        //    PlayerPrefs.SetFloat("CurrentTasksToDo", 0);
+        //    PlayerPrefs.SetFloat("CurrentTasksCompleted", 0);
+        //    PlayerPrefs.SetFloat("CurrentTimeBetweenTasks", 10f);
+        //    PlayerPrefs.SetFloat("CurrentDangerMeter", 0);
+        //    PlayerPrefs.Save();
+        //}
     }
 
     void DangerMeterIncrease()
@@ -164,7 +167,6 @@ public class GameManager : MonoBehaviour
             {
                 randomTask = Random.Range(1, 4);
             }
-            print(randomTask);
             randomTaskMemory = randomTask;
 
             if (randomTask == 1)

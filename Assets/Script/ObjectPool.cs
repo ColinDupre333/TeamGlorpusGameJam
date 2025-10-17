@@ -14,7 +14,15 @@ public class ObjectPool : MonoBehaviour
     private void Awake()
     {
         if (objectPoolInstance == null)
+        {
             objectPoolInstance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,6 +38,12 @@ public class ObjectPool : MonoBehaviour
                 pool.Add(obj);
             }
         }
+    }
+
+    public void RecreateObjects()
+    {
+        pool.Clear();
+        Start();
     }
 
     public GameObject GetPooledObject(GameObject typeObject)

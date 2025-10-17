@@ -15,7 +15,9 @@ public class PlayerMovementComponent : MonoBehaviour
     [SerializeField] float runningSpeed = 10f;
     [SerializeField] float gravity = -9.81f;
     [SerializeField] float jumpForce = 5f;
-    [SerializeField] AudioClip walkSFX;
+    [SerializeField] AudioClip[] movingSFX;
+    [SerializeField] float movingSFXVolume = 0.1f;
+    SoundPlayerScript soundPlayerScript;
     public MovementState currentMovementState = MovementState.Idle;
 
     CharacterController characterController;
@@ -30,6 +32,7 @@ public class PlayerMovementComponent : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        soundPlayerScript = GetComponent<SoundPlayerScript>();
 
         currentSpeed = walkingSpeed; // base speed
     }
@@ -47,6 +50,22 @@ public class PlayerMovementComponent : MonoBehaviour
             gravityVector = transform.up * jumpForce;
             wantsToJump = false;
             currentMovementState = MovementState.Jumping; // set state to jumping once
+        }
+    }
+
+    void SFXHandler()
+    {
+        if (!wantsToJump)
+        {
+            AudioClip walkSFX = movingSFX[Random.Range(0, movingSFX.Length)];
+            if (currentMovementState == MovementState.Walking)
+            {
+                soundPlayerScript.PlaySound(walkSFX, transform, movingSFXVolume, 0.3f);
+            }
+            else if(currentMovementState == MovementState.Running)
+            {
+                soundPlayerScript.PlaySound(walkSFX, transform,movingSFXVolume, 0.2f);
+            }
         }
     }
     void Movement()
@@ -72,6 +91,7 @@ public class PlayerMovementComponent : MonoBehaviour
         {
 
             Jump();
+            SFXHandler();
         }
 
         characterController.Move((moveDirection * currentSpeed + gravityVector) * Time.deltaTime);

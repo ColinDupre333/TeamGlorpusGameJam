@@ -14,6 +14,7 @@ public class TargetManager : MonoBehaviour
     [SerializeField] int maxTargets = 10;
     [SerializeField] int minTargets = 1;
     [SerializeField] AudioClip Music;
+    [SerializeField] float musicVolume = 0.2f;
     [SerializeField] TMPro.TextMeshProUGUI winText;
 
     int leftTargets = 0;
@@ -25,6 +26,7 @@ public class TargetManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        ObjectPool.objectPoolInstance.RecreateObjects();
         winText.enabled = false;
         if (instance == null)
         {
@@ -36,7 +38,7 @@ public class TargetManager : MonoBehaviour
         }
 
         soundPlayer = GetComponent<SoundPlayerScript>();
-        soundPlayer.PlaySound(Music, transform, 1f);
+        SFXManager.instance.PlaySFX(Music, transform, musicVolume);
         spawnPointTransforms = spawnPointsGameObject.GetComponentsInChildren<Transform>();
         SpawnAllTarget();
         scoreText.text = "Remaining Obects: " + leftTargets.ToString();
@@ -44,7 +46,7 @@ public class TargetManager : MonoBehaviour
 
     void Update()
     {
-        soundPlayer.PlaySound(Music, transform, 1f);
+
     }
 
 

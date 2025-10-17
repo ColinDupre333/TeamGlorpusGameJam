@@ -5,27 +5,24 @@ public class SoundPlayerScript : MonoBehaviour
 {
     bool SoundIsPlaying = false;
 
-    public void PlaySound(AudioClip audio, Transform position, float volume)
+    public void PlaySound(AudioClip audio, Transform position, float volume, float duration = 0)
     {
         if (!SoundIsPlaying)
         {
             StopAllCoroutines();
-            StartCoroutine(PlaySoundCouroutine(audio, transform, volume));
+            StartCoroutine(PlaySoundCouroutine(audio, transform, volume, duration));
         }
     }
 
-    IEnumerator PlaySoundCouroutine(AudioClip audio, Transform position, float volume)
+    IEnumerator PlaySoundCouroutine(AudioClip audio, Transform position, float volume, float duration)
     {
         SoundIsPlaying = true;
+        if (duration == 0f)
+        {
+            duration = audio.length;
+        }
         SFXManager.instance.PlaySFX(audio, position, volume);
-        //if (delay > 0 && delay > audio.length)
-        //{
-        //    yield return new WaitForSeconds(delay);
-        //}
-        //else
-        //{
-            yield return new WaitForSeconds(audio.length);
-      //  }
+        yield return new WaitForSeconds(duration);
         SoundIsPlaying = false;
     }
 }

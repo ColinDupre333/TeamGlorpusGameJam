@@ -4,7 +4,6 @@ using UnityEngine;
 public class SFXManager : MonoBehaviour
 {
     public static SFXManager instance;
-    [SerializeField] ObjectPool pool;
     [SerializeField] GameObject audioPrefab;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -13,19 +12,20 @@ public class SFXManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
 
-        DontDestroyOnLoad(gameObject);
+
     }
 
     public void PlaySFX(AudioClip clip, Transform sourceTransform, float volume)
     {
 
-        GameObject audioObject = pool.GetPooledObject(audioPrefab);
+        GameObject audioObject = ObjectPool.objectPoolInstance.GetPooledObject(audioPrefab);
         audioObject.SetActive(true);
         AudioSource audio = audioObject.GetComponent<AudioSource>();
         audio.volume = volume;

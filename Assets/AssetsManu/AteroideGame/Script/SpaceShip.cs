@@ -20,6 +20,8 @@ public class SpaceShip : MonoBehaviour
     [Header("Object references")]
     [SerializeField] Transform bulletsSpawn;
     [SerializeField] Rigidbody2D bulletPrefab;
+    [SerializeField] AudioClip shootSound;
+    [SerializeField] float shootVolume = 0.1f;
     void Awake()
     {
         shipRigidBody = GetComponent<Rigidbody2D>();
@@ -74,8 +76,9 @@ public class SpaceShip : MonoBehaviour
             Vector2 shipVelocity = shipRigidBody.linearVelocity;
             Vector2 shipDirection = transform.up;
             float shipFowardSpeed = Vector2.Dot(shipVelocity, shipDirection);
+            SFXManager.instance.PlaySFX(shootSound, transform, shootVolume);
 
-            if(shipFowardSpeed < 0)
+            if (shipFowardSpeed < 0)
             {
                 shipFowardSpeed = 0;
             }

@@ -10,9 +10,16 @@ public class SpaceManager : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI WinText;
     [SerializeField] TMPro.TextMeshProUGUI ScoreText;
     public int asteroidCount = 0;
+
+    SoundPlayerScript soundPlayer;
+    [SerializeField] AudioClip backgroundMusic;
+    [SerializeField] float musicVolume = 0.2f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        soundPlayer = GetComponent<SoundPlayerScript>();
+        ObjectPool.objectPoolInstance.RecreateObjects();
+        soundPlayer.PlaySound(backgroundMusic, transform, musicVolume);
         ScoreText.text = score.ToString() + "/" + scoreToWin.ToString();
         WinText.enabled = false;
         if (asteroidCount == 0)
@@ -27,6 +34,7 @@ public class SpaceManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        soundPlayer.PlaySound(backgroundMusic, transform, musicVolume);
         ScoreText.text = score.ToString() + "/" + scoreToWin.ToString();
         if (asteroidCount == 0)
         {
